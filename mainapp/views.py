@@ -1,6 +1,9 @@
+import json
+import os
+
 from django.http import HttpResponse
 from django.shortcuts import render
-
+from mainapp.models import ProductCategory,Product
 # Create your views here.
 
 links_menu = [
@@ -12,14 +15,20 @@ links_menu = [
 
 ]
 
+module_dir = os.path.dirname(__file__)
 
 def index(request):
     return render(request, 'mainapp/index.html')
 
-def products(request):
+def products(request, pk=None):
+    print(pk)
+    file_path = os.path.join(module_dir, 'fixtures/products.json')
+    products = json.load(open(file_path, encoding='utf-8'))
+
     content = {
         'title': 'Продукты',
         'links_menu': links_menu,
+        'products': products
     }
     return render(request, 'mainapp/products.html', content)
 
@@ -41,5 +50,17 @@ def context(request):
 
     return render(request, 'mainapp/test_context.html', content)
 
-def login(request):
-    return HttpResponse('ok')
+def main(request):
+
+
+
+     title = 'главная'
+
+     products = Product.objects.all()[:3]
+
+     content = {
+        'title': title,
+        'products':products
+     }
+
+     return render(request, 'mainapp/index.html', content)

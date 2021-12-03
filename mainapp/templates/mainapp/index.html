@@ -4,6 +4,7 @@
     {{ title|title }}
 {% endblock %}
  {% block css %}
+
 	<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 	<link rel="stylesheet" href="{% static 'fonts/font-awesome/css/font-awesome.css' %}">
  {% endblock %}
@@ -14,8 +15,8 @@
 			<div class="header clearfix">
 				<a href="index.html" class="logo"></a>
 				<ul class="menu">
-					<li><a href="{% url 'index' %}" class="active">домой</a></li>
-					<li><a href="{% url 'products' %}">продукты</a></li>
+					<li><a href="{% url 'main' %}" class="active">домой</a></li>
+					<li><a href="{% url 'products:index' %}">продукты</a></li>
 					<li><a href="{% url 'contact' %}">контакты</a></li>
 				</ul>
 				<a href="#" class="search"></a>
@@ -41,24 +42,19 @@
 			<div class="clearfix">
 			</div>
 			<div class="tab-content">
+				{% for product in products %}
 				<div class="block">
 					<a href="#"><img src="/static/img/product-1.jpg" alt="">
 						<div class="text">
-							<img src="/static/img/icon-hover.png" alt="img">
-							<h4>Отличный стул</h4>
-							<p>Расположитесь комфортно. </p>
+							<img src="/media/{{ product.image }}" alt="{{ product.short_desc }}">
+							<h3>{{ product.category.name }}</h3>
+							<h4>{{ product.name }}</h4>
+							<p>{{ product.description }}</p>
 						</div> 
 					</a>
 				</div>
-				<div class="block">
-					<a href="#"><img src="/static/img/product-2.jpg" alt="">
-						<div class="text">
-							<img src="/static/img/icon-hover.png" alt="">
-							<h4>Стул повышенного качества</h4>
-							<p>Не оторваться. </p>
-						</div>
-					</a>
-				</div>	
+				{% endfor %}
+
 			</div>
 		</div>
 		

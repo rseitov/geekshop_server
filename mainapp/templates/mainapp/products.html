@@ -15,8 +15,8 @@
 			<div class="header clearfix">
 				<a href="index.html" class="logo"></a>
 				<ul class="menu">
-					<li><a href="{% url 'index' %}" class="active">домой</a></li>
-					<li><a href="{% url 'products' %}">продукты</a></li>
+					<li><a href="{% url 'main' %}" class="active">домой</a></li>
+					<li><a href="{% url 'products:index' %}">продукты</a></li>
 					<li><a href="{% url 'contact' %}">контакты</a></li>
 
 				</ul>
@@ -43,11 +43,13 @@
 								<div class="text"></div>
 							</a>
 						</div>
+
 						<div class="block">
 							<a href="#"><img src="/static/img/controll1.jpg" alt="">
 								<div class="text"></div>
 							</a>
 						</div>
+
 						<div class="block">
 							<a href="#"><img src="/static/img/controll2.jpg" alt="">
 								<div class="text"></div>
@@ -80,33 +82,18 @@
 					<a class="explore" href="#">показать все <img src="img/arrow.png" alt=""></a>
 				</div>
 				<div class="related-products clearfix">
+					{% for product in products %}
 					<div class="block">
-						<a href="#"><img src="/static/img/product-11.jpg" alt="">
+						<a href="#"><img src="/static/img/{{ product.image }}" alt="">
 							<div class="text">
 								<img src="/static/img/icon-hover.png" alt="img">
-								<h4>Стул повышенного качества</h4>
-								<p>Не оторваться. </p>
+								<h4>{{ product.name }}</h4>
+								<p>{{ product.descritpion}}</p>
 							</div>
 						</a>
 					</div>
-					<div class="block">
-						<a href="#"><img src="/static/img/product-21.jpg" alt="">
-							<div class="text">
-								<img src="/static/img/icon-hover.png" alt="img">
-								<h4>Стул повышенного качества</h4>
-								<p>Не оторваться. </p>
-							</div>
-						</a>
-					</div>
-					<div class="block">
-						<a href="#"><img src="/static/img/product-31.jpg" alt="">
-							<div class="text">
-								<img src="/static/img/icon-hover.png" alt="img">
-								<h4>Стул повышенного качества</h4>
-								<p>Не оторваться. </p>
-							</div>
-						</a>
-					</div>
+					{% endfor %}
+
 
 				</div>
 			</div>
