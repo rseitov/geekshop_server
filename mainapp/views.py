@@ -2,7 +2,9 @@ import json
 import os
 
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+
+from basketapp.models import Basket
 from mainapp.models import ProductCategory,Product
 # Create your views here.
 
@@ -15,25 +17,63 @@ links_menu = [
 
 ]
 
+menu = [
+        {'href': 'main', 'name': 'главная'},
+        {'href': 'products:index', 'name': 'продукты'},
+        {'href': 'contact', 'name': 'контакты'},
+]
+
 module_dir = os.path.dirname(__file__)
 
 def index(request):
-    return render(request, 'mainapp/index.html')
+    content = {'menu': menu}
+    return render(request, 'mainapp/index.html', content)
 
 def products(request, pk=None):
     print(pk)
-    file_path = os.path.join(module_dir, 'fixtures/products.json')
-    products = json.load(open(file_path, encoding='utf-8'))
+    # file_path = os.path.join(module_dir, 'json/products.json')
+    # products = json.load(open(file_path, encoding='utf-8'))
+
+    title = 'продукты'
+
+    links_menu = ProductCategory.objects.all()
+
+    basket = []
+    if request.user.is_authenticated:
+        basket = Basket.objects.filter(user=request.user)
+
+    if pk is not None:
+        if pk == 0:
+            products = Product.objects.all().order_by('price')
+            category = {'name':'все'}
+        else:
+            category = get_object_or_404(ProductCategory, pk=pk)
+            products = Product.objects.filter(category__pk=pk).order_by('price')
+
+        content = {
+            'title': title,
+            'links_menu': links_menu,
+            'products': products,
+            'category':category,
+            'menu': menu,
+            'basket':basket,
+        }
+        return render(request, 'mainapp/products_list.html', content)
+
+    same_products = Product.objects.all()[:5]
 
     content = {
-        'title': 'Продукты',
-        'links_menu': links_menu,
-        'products': products
+        'title': title,
+        'links_menu':links_menu,
+        'same_products':same_products,
+        'menu': menu
     }
+
     return render(request, 'mainapp/products.html', content)
 
 def contact(request):
-    return render(request, 'mainapp/contact.html')
+    content = {'menu': menu}
+    return render(request, 'mainapp/contact.html', content)
 
 
 def context(request):
@@ -60,7 +100,8 @@ def main(request):
 
      content = {
         'title': title,
-        'products':products
+        'products':products,
+        'menu': menu
      }
 
      return render(request, 'mainapp/index.html', content)

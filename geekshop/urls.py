@@ -30,6 +30,8 @@ urlpatterns = [
     path('products_office', products, name="products_office"),
     path('products_modern', products, name="products_modern"),
     path('products_classic', products, name="products_classic"),
+    path('auth/', include('authapp.urls', namespace='auth')),
+    path('basket/', include('basketapp.urls', namespace='basket')),
 
 
 ]
