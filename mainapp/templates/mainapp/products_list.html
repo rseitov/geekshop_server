@@ -37,14 +37,19 @@
 
             {% for product in products %}
 					<div class="block">
-						<a href="{% url 'basket:add' product.pk %}"><img src="/static/img/{{ product.image }}" alt="">
+						<a href="{% url 'products:product' product.pk %}"><img src="/static/img/{{ product.image }}" alt="">
 							<div class="text">
 								<img src="/static/img/icon-hover.png" alt="img">
 								<h4>{{ product.name }}</h4>
 								<p>{{ product.descritpion}}</p>
 							</div>
 						</a>
+						<a href="{% url 'basket:add' product.pk %}">
+							<p>добавить в корзину</p>
+						</a>
+
 					</div>
+
 					{% endfor %}
 
 

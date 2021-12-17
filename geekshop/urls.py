@@ -20,7 +20,8 @@ from mainapp.views import index, products, contact, context, main
 from django.conf import settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
+    path('admin/', include('adminaap.urls', namespace='admin')),
     path('', main, name = "main"),
     path('products/', include("mainapp.urls", namespace='products')),
     path('contact/', contact, name = "contact"),

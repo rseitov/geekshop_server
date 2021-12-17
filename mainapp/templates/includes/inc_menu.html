@@ -11,6 +11,12 @@
     </li>
     {% endfor %}
 
+    {% if user.is_superuser %}
+        <li>
+          <a href="{% url 'admin:users' %}">админка</a>
+        </li>
+     {% endif %}
+
     {% if user.is_authenticated %}
     <li>
         <a href="{% url  'auth:logout' %}"> выйти</a>
@@ -23,9 +29,14 @@
 
     {% endif %}
 </ul>
-
+{{ basket.0 }}
 <a href="{% url 'basket:view' %}" class="basket">
     <span>
-        {% if basket %} {{ basket|length }} {% endif %}
+        {% if basket %}
+
+        {{ basket.0.total_cost|floatformat:0 }} руб
+        ({{ basket.0.total_quantity }} шт)
+
+        {% endif %}
     </span>
 </a>
