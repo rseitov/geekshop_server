@@ -43,10 +43,7 @@ class ShopUserEditForm(UserChangeForm):
 
     def __init__(self, *args, **kwargs):
         super(ShopUserEditForm, self).__init__(*args, **kwargs)
-
         for field_name, field in self.fields.items():
-            print(field)
-            print(field_name)
             field.widget.attrs['class'] = 'form-control'
 
 
